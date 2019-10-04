@@ -21,13 +21,13 @@ No outputs.
 ## Example usage
 
 ```yaml
-uses: jandelgado/gcov2lcov-action@v1
+uses: jandelgado/gcov2lcov-action@v1.0.0
 with:
   infile: coverage.out
   outfile: coverage.lcov
 ```
 
-### Full workflow example
+### Full example
 
 ```yaml
   coverage:
@@ -40,17 +40,24 @@ with:
         go-version: 1.13.x
     - name: Checkout code
       uses: actions/checkout@v1
-    - name: Calc coverage using action
-      uses: jandelgado/gcov2lcov-action@v1
+    - name: Calc coverage 
+      run: |
+        export PATH=$PATH:$(go env GOPATH)/bin   
+        go test -v -covermode=count -coverprofile=coverage.out
+    - name: Convert coverage to lcov
+      uses: jandelgado/gcov2lcov-action@v1.0.0
       with:
-        infile: coverage.out
-        outfile: coverage.lcov
+          infile: coverage.out
+          outfile: coverage.lcov
     - name: Coveralls
       uses: coverallsapp/github-action@v1.0.1
       with:
-        github-token: ${{ secrets.github_token }}
-        path-to-lcov: coverage.lcov
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: coverage.lcov
 ```
+
+See also [example repository](https://github.com/jandelgado/golang-ci-template-github-actions).
+
 
 ## Author
 

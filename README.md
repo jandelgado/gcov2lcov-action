@@ -1,0 +1,62 @@
+## gcov2lcov-action
+
+Convert golang coverage files to lcov format. Works nicely with the [coverall
+github action](https://github.com/marketplace/actions/coveralls-github-action) and
+uses [gcov2lcov][https://github.com/jandelgado/gcov2lcov].
+
+## Inputs
+
+### `infile`
+
+**Required** Name of the go coverage file. Default `coverage.out`.
+
+### `outfile`
+
+**Required** Name of the lcov file to write. Default `coverage.lcov`.
+
+## Outputs
+
+No outputs.
+
+## Example usage
+
+```yaml
+uses: jandelgado/gcov2lcov-action@v1
+with:
+  infile: coverage.out
+  outfile: coverage.lcov
+```
+
+### Full workflow example
+
+```yaml
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Go
+      if: success()
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13.x
+    - name: Checkout code
+      uses: actions/checkout@v1
+    - name: Calc coverage using action
+      uses: jandelgado/gcov2lcov-action@v1
+      with:
+        infile: coverage.out
+        outfile: coverage.lcov
+    - name: Coveralls
+      uses: coverallsapp/github-action@v1.0.1
+      with:
+        github-token: ${{ secrets.github_token }}
+        path-to-lcov: coverage.lcov
+```
+
+## Author
+
+Copyright (C) 2019 Jan Delgado
+
+## License 
+
+MIT
+

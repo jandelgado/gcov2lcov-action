@@ -1,0 +1,24 @@
+on: [push, pull_request]
+name: test
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Go
+      if: success()
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13.x
+    - name: Checkout code
+      uses: actions/checkout@v1
+    - name: Integration test
+      run: |
+        # build image and run container with integration test case of 
+        # original gcov2lcov repository.
+        docker build -t gcov2lcov-action .
+        git clone https://github.com/jandelgado/gcov2lcov.git
+        docker run -e "GITHUB_WORKSPACE=/test" \
+                   -e "INPUT_INFILE=testdata/coverage.out" \
+                   -e "INPUT_OUTFILE=testdata/coverage.lcov" \
+                   -i --rm -v "$PWD/gcov2lcov:/test" gcov2lcov-action
+        diff gcov2lcov/testdata/coverage_expected.lcov gcov2lcov/testdata/coverage.lcov

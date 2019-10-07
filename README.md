@@ -1,5 +1,7 @@
 ## gcov2lcov-action
 
+[![Build Status](https://github.com/jandelgado/gcov2lcov-action/workflows/test/badge.svg)](https://github.com/jandelgado/gcov2lcov-action/actions?workflow=test)
+
 Convert golang coverage files to lcov format. Works nicely with the [coverall
 github action](https://github.com/marketplace/actions/coveralls-github-action) and
 uses [gcov2lcov](https://github.com/jandelgado/gcov2lcov).

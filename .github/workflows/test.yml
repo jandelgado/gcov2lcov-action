@@ -13,12 +13,19 @@ jobs:
       uses: actions/checkout@v1
     - name: Integration test
       run: |
-        # build image and run container with integration test case of 
-        # original gcov2lcov repository.
+        # perform an integration test with original gcov2lcov integration 
+        # test data, which is available in the testdata/ directory.
         docker build -t gcov2lcov-action .
-        git clone https://github.com/jandelgado/gcov2lcov.git
+
+        # create bare-bones go project to run the action on
+        mkdir -p gcov2lcov/.git
+        echo -e '[remote "origin"]\nurl = git@github.com:jandelgado/gcov2lcov\n' > gcov2lcov/.git/config
+        echo -e "package main\n" > gcov2lcov/main.go
+        echo -e "module github.com/jandelgado/gcov2lcov\ngo 1.12\n" > gcov2lcov/go.mod
+        cp testdata/coverage.out gcov2lcov/
+
         docker run -e "GITHUB_WORKSPACE=/test" \
-                   -e "INPUT_INFILE=testdata/coverage.out" \
-                   -e "INPUT_OUTFILE=testdata/coverage.lcov" \
+                   -e "INPUT_INFILE=coverage.out" \
+                   -e "INPUT_OUTFILE=coverage.lcov" \
                    -i --rm -v "$PWD/gcov2lcov:/test" gcov2lcov-action
-        diff gcov2lcov/testdata/coverage_expected.lcov gcov2lcov/testdata/coverage.lcov
+        diff testdata/coverage_expected.lcov gcov2lcov/coverage.lcov

@@ -23,7 +23,7 @@ No outputs.
 ## Example usage
 
 ```yaml
-uses: jandelgado/gcov2lcov-action@v1.0.0
+uses: jandelgado/gcov2lcov-action@v1.0.1
 with:
   infile: coverage.out
   outfile: coverage.lcov
@@ -47,7 +47,7 @@ with:
         export PATH=$PATH:$(go env GOPATH)/bin   
         go test -v -covermode=count -coverprofile=coverage.out
     - name: Convert coverage to lcov
-      uses: jandelgado/gcov2lcov-action@v1.0.0
+      uses: jandelgado/gcov2lcov-action@v1.0.1
       with:
           infile: coverage.out
           outfile: coverage.lcov
@@ -59,7 +59,6 @@ with:
 ```
 
 See also [example repository](https://github.com/jandelgado/golang-ci-template-github-actions).
-
 
 ## Author
 

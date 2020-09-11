@@ -10,7 +10,7 @@ LABEL "com.github.actions.color"="blue"
 WORKDIR /go/src/app
 ADD . /go/src/app
 
-RUN GO111MODULE=on go get -u github.com/jandelgado/gcov2lcov@v1.0.2
+RUN GO111MODULE=on go get -u github.com/jandelgado/gcov2lcov@v1.0.3
 
 COPY entrypoint.sh /
 

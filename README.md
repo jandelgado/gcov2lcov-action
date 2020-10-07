@@ -23,7 +23,7 @@ No outputs.
 ## Example usage
 
 ```yaml
-uses: jandelgado/gcov2lcov-action@v1.0.3
+uses: jandelgado/gcov2lcov-action@v1.0.4
 with:
   infile: coverage.out
   outfile: coverage.lcov
@@ -39,7 +39,7 @@ with:
       if: success()
       uses: actions/setup-go@v1
       with:
-        go-version: 1.13.x
+        go-version: 1.15.x
     - name: Checkout code
       uses: actions/checkout@v1
     - name: Calc coverage 
@@ -47,12 +47,12 @@ with:
         export PATH=$PATH:$(go env GOPATH)/bin   
         go test -v -covermode=count -coverprofile=coverage.out
     - name: Convert coverage to lcov
-      uses: jandelgado/gcov2lcov-action@v1.0.3
+      uses: jandelgado/gcov2lcov-action@v1.0.4
       with:
           infile: coverage.out
           outfile: coverage.lcov
     - name: Coveralls
-      uses: coverallsapp/github-action@v1.0.3
+      uses: coverallsapp/github-action@v1.0.4
       with:
           github-token: ${{ secrets.github_token }}
           path-to-lcov: coverage.lcov

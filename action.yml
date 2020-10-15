@@ -1,14 +1,32 @@
-name: 'gcov2lcov-action'
-description: 'convert golang coverage to lcov format'
+name: gcov2lcov-action
+
+description: "convert golang coverage to lcov format"
+
 inputs:
   infile:
-    description: 'go coverage input file'
+    description: "go coverage input file"
     required: true
-    default: 'coverage.out'
+    default: coverage.out
   outfile:
-    description: 'lcov output file'
+    description: "lcov output file"
     required: true
-    default: 'coverage.lcov'
+    default: coverage.lcov
+  version:
+    description: "gcov2lcov version"
+    required: true
+    default: v1.0.4
+  workspace:
+    description: "working directory"
+    required: false
+
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: composite
+  steps:
+    - name: Run gcov2lcov
+      run: ${{ github.action_path }}/entrypoint.sh
+      shell: bash
+      env:
+        INFILE: ${{ inputs.infile }}
+        OUTFILE: ${{ inputs.outfile }}
+        VERSION: ${{ inputs.version }}
+        WORKSPACE: ${{ inputs.workspace }}

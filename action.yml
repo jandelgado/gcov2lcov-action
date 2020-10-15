@@ -14,9 +14,9 @@ inputs:
   version:
     description: "gcov2lcov version"
     required: true
-    default: v1.0.4
-  workspace:
-    description: "working directory"
+    default: latest
+  working-directory:
+    description: "change working directory"
     required: false
 
 runs:
@@ -24,7 +24,7 @@ runs:
   steps:
     - shell: bash
       run: ${{ github.action_path }}/entrypoint.sh
-      working-directory: ${{ inputs.workspace }}
+      working-directory: ${{ inputs.working-directory }}
       env:
         INFILE: ${{ inputs.infile }}
         OUTFILE: ${{ inputs.outfile }}

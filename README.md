@@ -10,11 +10,19 @@ uses [gcov2lcov](https://github.com/jandelgado/gcov2lcov) under the hood.
 
 ### `infile`
 
-**Required** Name of the go coverage file. Default `coverage.out`.
+**Optional** Name of the go coverage file. Default `coverage.out`.
 
 ### `outfile`
 
-**Required** Name of the lcov file to write. Default `coverage.lcov`.
+**Optional** Name of the lcov file to write. Default `coverage.lcov`.
+
+### `version`
+
+**Optional** Name of the specific gcov2lcov program version. Default `latest`.
+
+### `working-directory`
+
+**Optional** Name of the change to specific working-directory.
 
 ## Outputs
 
@@ -23,10 +31,12 @@ No outputs.
 ## Example usage
 
 ```yaml
-uses: jandelgado/gcov2lcov-action@v1.0.4
+uses: jandelgado/gcov2lcov-action@v1.0.5
 with:
-  infile: coverage.out
-  outfile: coverage.lcov
+  infile: coverage.out        # optional, default filename is `coverage.out`
+  outfile: coverage.lcov      # optional, default filename is `coverage.lcov`
+  version: v1.0.4             # optional, use specific `gcov2lcov` release version
+  working-directory: testdata # optional, change working directory
 ```
 
 ### Full example

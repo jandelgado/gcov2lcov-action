@@ -1,5 +1,14 @@
 # Changelog for gcov2lcov-action
 
+## 1.0.5 [2020-10-15]
+
+- without docker runtime
+
+## 1.0.4 [2020-10-13]
+
+- bump to gcov2lcov 1.0.4
+- use precompiled binary
+
 ## 1.0.3 [2020-09-11]
 
 - bump to gcov2lcov 1.0.3

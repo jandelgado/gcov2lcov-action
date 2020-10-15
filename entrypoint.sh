@@ -1,8 +1,9 @@
-#!/bin/sh
-set -eu
+#!/bin/bash
+set -xeuo pipefail
 
-unset GOPATH
-export GOROOT=/usr/local/go
-
-cd $GITHUB_WORKSPACE
-exec /app/gcov2lcov-linux-amd64 -infile "$INPUT_INFILE" -outfile "$INPUT_OUTFILE"
+TMP_BIN=$(mktemp -d -t ci-XXXXXXXXXX)
+NAME="gcov2lcov-linux-amd64"
+wget "https://github.com/jandelgado/gcov2lcov/releases/download/${VERSION}/${NAME}.tar.gz" -q -O - | tar zxf - --strip 1 --directory "$TMP_BIN"
+chmod +x "$TMP_BIN/$NAME"
+cd "$GITHUB_WORKSPACE/$WORKSPACE" || exit 1
+exec "$TMP_BIN/gcov2lcov-linux-amd64" -infile "${INFILE}" -outfile "${OUTFILE}"

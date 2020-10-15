@@ -14,9 +14,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Integration test
+      - name: Prepare
+        run: git init
+        working-directory: testdata
+      - name: Run gcov2lcov-action
         uses: ./
         with:
           workspace: testdata
       - name: Diff
-        run: git diff
+        run: diff -y coverage_expected.lcov coverage.lcov
+        working-directory: testdata

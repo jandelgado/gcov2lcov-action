@@ -37,17 +37,15 @@ coverage:
   steps:
     - name: Install Go
       if: success()
-      uses: actions/setup-go@v1
-      with:
-        go-version: 1.15.x
+      uses: actions/setup-go@v2-beta
     - name: Checkout code
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
     - name: Calc coverage
       run: |
         export PATH=$PATH:$(go env GOPATH)/bin
         go test -v -covermode=count -coverprofile=coverage.out
     - name: Convert coverage to lcov
-      uses: jandelgado/gcov2lcov-action@v1.0.4
+      uses: jandelgado/gcov2lcov-action@v1.0.5
       with:
         infile: coverage.out
         outfile: coverage.lcov

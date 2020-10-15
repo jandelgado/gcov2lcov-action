@@ -22,11 +22,10 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Run gcov2lcov
+    - shell: bash
       run: ${{ github.action_path }}/entrypoint.sh
-      shell: bash
+      working-directory: ${{ inputs.workspace }}
       env:
         INFILE: ${{ inputs.infile }}
         OUTFILE: ${{ inputs.outfile }}
         VERSION: ${{ inputs.version }}
-        WORKSPACE: ${{ inputs.workspace }}

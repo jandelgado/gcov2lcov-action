@@ -23,7 +23,7 @@ runs:
   using: composite
   steps:
     - shell: bash
-      run: '[[ ! -f "$NAME" ]] && set -x && curl -sLf "${RELEASE}/${NAME}.tar.gz" | tar zxf - --strip 1'
+      run: 'set -x && curl -sLf "${RELEASE}/${NAME}.tar.gz" | tar zxf - --strip 1'
       working-directory: /tmp
       env:
         NAME: "gcov2lcov-linux-amd64"

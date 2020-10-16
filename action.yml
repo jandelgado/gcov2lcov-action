@@ -23,9 +23,11 @@ runs:
   using: composite
   steps:
     - shell: bash
-      run: ${{ github.action_path }}/entrypoint.sh
-      working-directory: ${{ inputs.working-directory }}
+      run: '[[ ! -f "$NAME" ]] && set -x && curl -sLf "${RELEASE}/${NAME}.tar.gz" | tar zxf - --strip 1'
+      working-directory: /tmp
       env:
-        INFILE: ${{ inputs.infile }}
-        OUTFILE: ${{ inputs.outfile }}
-        VERSION: ${{ inputs.version }}
+        NAME: "gcov2lcov-linux-amd64"
+        RELEASE: "https://github.com/jandelgado/gcov2lcov/releases/${{inputs.version}}/download"
+    - shell: bash
+      run: set -x && /tmp/gcov2lcov-linux-amd64 -infile "${{ inputs.infile }}" -outfile "${{ inputs.outfile }}"
+      working-directory: ${{ inputs.working-directory }}

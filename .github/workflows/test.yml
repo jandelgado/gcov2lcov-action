@@ -21,6 +21,10 @@ jobs:
         uses: ./
         with:
           working-directory: testdata
+      - name: Run gcov2lcov-action (cache test)
+        uses: ./
+        with:
+          working-directory: testdata
       - name: Diff
         run: diff -y coverage_expected.lcov coverage.lcov
         working-directory: testdata

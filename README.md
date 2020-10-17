@@ -53,8 +53,7 @@ coverage:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Calc coverage
-      run: |
-        go test -v -covermode=count -coverprofile=coverage.out
+      run: go test -v -covermode=count -coverprofile=coverage.out
     - name: Convert coverage to lcov
       uses: jandelgado/gcov2lcov-action@v1.0.5
     - name: Coveralls

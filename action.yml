@@ -14,19 +14,20 @@ inputs:
   version:
     description: "gcov2lcov version"
     required: true
-    default: v1.0.4
-  workspace:
-    description: "working directory"
+    default: latest
+  working-directory:
+    description: "change working directory"
     required: false
 
 runs:
   using: composite
   steps:
-    - name: Run gcov2lcov
-      run: ${{ github.action_path }}/entrypoint.sh
-      shell: bash
+    - shell: bash
+      run: 'set -x && curl -sLf "${RELEASE}/${NAME}.tar.gz" | tar zxf - --strip 1'
+      working-directory: /tmp
       env:
-        INFILE: ${{ inputs.infile }}
-        OUTFILE: ${{ inputs.outfile }}
-        VERSION: ${{ inputs.version }}
-        WORKSPACE: ${{ inputs.workspace }}
+        NAME: "gcov2lcov-linux-amd64"
+        RELEASE: "https://github.com/jandelgado/gcov2lcov/releases/${{inputs.version}}/download"
+    - shell: bash
+      run: set -x && /tmp/gcov2lcov-linux-amd64 -infile "${{ inputs.infile }}" -outfile "${{ inputs.outfile }}"
+      working-directory: ${{ inputs.working-directory }}

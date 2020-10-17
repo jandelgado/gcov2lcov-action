@@ -20,7 +20,7 @@ jobs:
       - name: Run gcov2lcov-action
         uses: ./
         with:
-          workspace: testdata
+          working-directory: testdata
       - name: Diff
         run: diff -y coverage_expected.lcov coverage.lcov
         working-directory: testdata

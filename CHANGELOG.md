@@ -1,5 +1,9 @@
 # Changelog for gcov2lcov-action
 
+## 1.0.8 [2020-11-05]
+
+- fix: use correct download link when specific version of gcov2lcov is set (#11)
+
 ## 1.0.5 [2020-10-15]
 
 - without docker runtime

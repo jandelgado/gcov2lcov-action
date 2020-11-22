@@ -23,11 +23,12 @@ runs:
   using: composite
   steps:
     - shell: bash
-      run: 'set -x && curl -sLf "${RELEASE}/${NAME}.tar.gz" | tar zxf - --strip 1'
+      run: 'set -x && curl -sLf "$([ ${{inputs.version}} == latest ] && echo $LATEST_RELEASE || echo $RELEASE)/${NAME}.tar.gz" | tar zxf - --strip 1'
       working-directory: /tmp
       env:
         NAME: "gcov2lcov-linux-amd64"
-        RELEASE: "https://github.com/jandelgado/gcov2lcov/releases/${{inputs.version}}/download"
+        RELEASE: "https://github.com/jandelgado/gcov2lcov/releases/download/${{inputs.version}}"
+        LATEST_RELEASE: "https://github.com/jandelgado/gcov2lcov/releases/latest/download"
     - shell: bash
       run: set -x && /tmp/gcov2lcov-linux-amd64 -infile "${{ inputs.infile }}" -outfile "${{ inputs.outfile }}"
       working-directory: ${{ inputs.working-directory }}

@@ -17,7 +17,15 @@ jobs:
       - name: Prepare
         run: git init
         working-directory: testdata
-      - name: Run gcov2lcov-action
+      - name: Run gcov2lcov-action with specific release
+        uses: ./
+        with:
+          working-directory: testdata
+          version: v1.0.4
+      - name: Diff
+        run: diff -y coverage_expected.lcov coverage.lcov
+        working-directory: testdata
+      - name: Run gcov2lcov-action with latest release
         uses: ./
         with:
           working-directory: testdata

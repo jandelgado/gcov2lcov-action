@@ -31,7 +31,7 @@ No outputs.
 ## Example usage
 
 ```yaml
-uses: jandelgado/gcov2lcov-action@v1.0.5
+uses: jandelgado/gcov2lcov-action@v1
 with:
   infile: coverage.out        # optional, default filename is `coverage.out`
   outfile: coverage.lcov      # optional, default filename is `coverage.lcov`
@@ -47,17 +47,17 @@ coverage:
   steps:
     - name: Install Go
       if: success()
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
-        go-version: 1.15.x
+        go-version: 1.18
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Calc coverage
       run: go test -v -covermode=count -coverprofile=coverage.out
     - name: Convert coverage to lcov
-      uses: jandelgado/gcov2lcov-action@v1.0.5
+      uses: jandelgado/gcov2lcov-action@v1
     - name: Coveralls
-      uses: coverallsapp/github-action@v1.0.4
+      uses: coverallsapp/github-action@v1.1.3
       with:
         github-token: ${{ secrets.github_token }}
         path-to-lcov: coverage.lcov
@@ -67,7 +67,7 @@ See also [example repository](https://github.com/jandelgado/golang-ci-template-g
 
 ## Author
 
-Copyright &copy; 2019 - 2020 Jan Delgado
+Copyright &copy; 2019 - 2022 Jan Delgado
 
 ## License
 

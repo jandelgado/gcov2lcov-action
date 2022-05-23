@@ -57,7 +57,7 @@ coverage:
     - name: Convert coverage to lcov
       uses: jandelgado/gcov2lcov-action@v1
     - name: Coveralls
-      uses: coverallsapp/github-action@v1.1.3
+      uses: coverallsapp/github-action@v1.1.2
       with:
         github-token: ${{ secrets.github_token }}
         path-to-lcov: coverage.lcov

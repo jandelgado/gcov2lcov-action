@@ -30,5 +30,5 @@ runs:
         RELEASE: "https://github.com/jandelgado/gcov2lcov/releases/download/${{inputs.version}}"
         LATEST_RELEASE: "https://github.com/jandelgado/gcov2lcov/releases/latest/download"
     - shell: bash
-      run: set -x && /tmp/gcov2lcov-linux-amd64 -infile "${{ inputs.infile }}" -outfile "${{ inputs.outfile }}"
+      run: 'set -x && GOROOT=$(go env GOROOT) /tmp/gcov2lcov-linux-amd64 -infile "${{ inputs.infile }}" -outfile "${{ inputs.outfile }}"'
       working-directory: ${{ inputs.working-directory }}

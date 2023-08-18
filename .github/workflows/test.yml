@@ -21,7 +21,7 @@ jobs:
         uses: ./
         with:
           working-directory: testdata
-          version: v1.0.4
+          version: v1.0.6
       - name: Diff
         run: diff -y coverage_expected.lcov coverage.lcov
         working-directory: testdata

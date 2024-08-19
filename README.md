@@ -1,6 +1,25 @@
 # gcov2lcov-action
 
 [![Build Status](https://github.com/jandelgado/gcov2lcov-action/workflows/test/badge.svg)](https://github.com/jandelgado/gcov2lcov-action/actions?workflow=test)
+<table><tr><td> 
+<h2>NOTE</h2>
+<b>
+The <a href="https://github.com/coverallsapp/github-action">coverallsapp-action</a>
+now supports the golang coverage format out of the box. You probably won't need
+this action anymore. Example:
+</b>
+
+```yaml
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2.3.0
+        with:
+          github-token: ${{ secrets.github_token }}
+          file: coverage.out
+          format: golang
+```
+</td></tr></table>
+
+## What
 
 Convert golang coverage files to lcov format. Works nicely with the [coveralls
 github action](https://github.com/marketplace/actions/coveralls-github-action) and

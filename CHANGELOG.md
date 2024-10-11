@@ -1,5 +1,9 @@
 # Changelog for gcov2lcov-action
 
+## 1.1.0 [2024-10-10]
+
+- prepare for new gcov2lcov version 1.1.0, which will change artifact names
+
 ## 1.0.9 [2022-05-23]
 
 - fix: always set `GOROOT` before invoking `gcov2lcov` (#13)

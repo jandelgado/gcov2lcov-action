@@ -23,12 +23,20 @@ runs:
   using: composite
   steps:
     - shell: bash
-      run: 'set -x && curl -sLf "$([ ${{inputs.version}} == latest ] && echo $LATEST_RELEASE || echo $RELEASE)/${NAME}.tar.gz" | tar zxf - --strip 1'
+      run: |
+        set -xe
+        if [ "${{inputs.version}}" == "latest" ]; then
+          URL="https://api.github.com/repos/jandelgado/gcov2lcov/releases/latest"
+        else
+          URL="https://api.github.com/repos/jandelgado/gcov2lcov/releases/tags/${{inputs.version}}"
+        fi
+        # starting with version v1.1.0 gcov2lcov changed it's artefact naming a bit.
+        # we are gentle and support also the old naming convetion
+        PACKAGE_URL=$(curl "$URL" | jq -r '.assets[] | select(.name | test("gcov2lcov.*linux.amd64.tar.gz")) | .browser_download_url')
+        curl -sLf "$PACKAGE_URL" | tar zxf -
+        mv bin/gcov2lcov-linux-amd64 gcov2lcov > /dev/null 2>&1 || true  # before v1.1.0
+
       working-directory: /tmp
-      env:
-        NAME: "gcov2lcov-linux-amd64"
-        RELEASE: "https://github.com/jandelgado/gcov2lcov/releases/download/${{inputs.version}}"
-        LATEST_RELEASE: "https://github.com/jandelgado/gcov2lcov/releases/latest/download"
     - shell: bash
-      run: 'set -x && GOROOT=$(go env GOROOT) /tmp/gcov2lcov-linux-amd64 -infile "${{ inputs.infile }}" -outfile "${{ inputs.outfile }}"'
+      run: 'set -x && GOROOT=$(go env GOROOT) /tmp/gcov2lcov -infile "${{ inputs.infile }}" -outfile "${{ inputs.outfile }}"'
       working-directory: ${{ inputs.working-directory }}

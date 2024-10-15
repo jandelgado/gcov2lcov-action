@@ -1,6 +1,6 @@
 # Changelog for gcov2lcov-action
 
-## 1.1.0 [2024-10-10]
+## 1.1.0, 1.1.1 [2024-10-10]
 
 - prepare for new gcov2lcov version 1.1.0, which will change artifact names
 

@@ -34,13 +34,15 @@ runs:
         else
           URL="https://api.github.com/repos/jandelgado/gcov2lcov/releases/tags/${{inputs.version}}"
         fi
+        AUTH_HEADER=""
         if [ -n "${{ inputs.github-token }}" ]; then
           echo "Using authenticated GitHub API request"
-          PACKAGE_URL=$(curl -H "Authorization: Bearer ${{ inputs.github-token }}" "$URL" | jq -r '[ .assets[] | select(.name | test("gcov2lcov.*linux.amd64.tar.gz")) | .browser_download_url ] | first ')
+          AUTH_HEADER="Authorization: Bearer ${{ inputs.github-token }}"
         else
           echo "Using unauthenticated GitHub API request" 
-          PACKAGE_URL=$(curl "$URL" | jq -r '[ .assets[] | select(.name | test("gcov2lcov.*linux.amd64.tar.gz")) | .browser_download_url ] | first ')
         fi
+        
+        PACKAGE_URL=$(curl ${AUTH_HEADER:+-H "$AUTH_HEADER"} "$URL" | jq -r '[ .assets[] | select(.name | test("gcov2lcov.*linux.amd64.tar.gz")) | .browser_download_url ] | first ')
         
         # starting with version v1.1.0 gcov2lcov changed it's artefact naming a bit.
         # we are gentle and support also the old naming convetion

@@ -18,6 +18,10 @@ inputs:
   working-directory:
     description: "change working directory"
     required: false
+  github-token:
+    description: "GitHub token for API authentication. Defaults to the automatic GitHub token for improved rate limits."
+    required: false
+    default: ${{ github.token }}
 
 runs:
   using: composite
@@ -30,9 +34,18 @@ runs:
         else
           URL="https://api.github.com/repos/jandelgado/gcov2lcov/releases/tags/${{inputs.version}}"
         fi
+        AUTH_HEADER=""
+        if [ -n "${{ inputs.github-token }}" ]; then
+          echo "Using authenticated GitHub API request"
+          AUTH_HEADER="Authorization: Bearer ${{ inputs.github-token }}"
+        else
+          echo "Using unauthenticated GitHub API request" 
+        fi
+        
+        PACKAGE_URL=$(curl ${AUTH_HEADER:+-H "$AUTH_HEADER"} "$URL" | jq -r '[ .assets[] | select(.name | test("gcov2lcov.*linux.amd64.tar.gz")) | .browser_download_url ] | first ')
+        
         # starting with version v1.1.0 gcov2lcov changed it's artefact naming a bit.
         # we are gentle and support also the old naming convetion
-        PACKAGE_URL=$(curl "$URL" | jq -r '[ .assets[] | select(.name | test("gcov2lcov.*linux.amd64.tar.gz")) | .browser_download_url ] | first ')
         curl -sLf "$PACKAGE_URL" | tar zxf -
         mv bin/gcov2lcov-linux-amd64 gcov2lcov > /dev/null 2>&1 || true  # before v1.1.0
 
